@@ -15,6 +15,18 @@ scrape_configs:
           job: docker
           host: docker
           agent: promtail
+      - json:
+          expressions:
+            output: event
+            timestamp: timestamp
+            level: level
+            logger: logger
+            http:
+      - labels:
+          level:
+      - timestamp:
+          source: timestamp
+          format: RFC3339
     docker_sd_configs:
       - host: unix:///var/run/docker.sock
         refresh_interval: 5s
