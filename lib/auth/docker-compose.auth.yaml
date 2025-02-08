@@ -14,6 +14,7 @@ services:
     volumes:
       - ${BENTOV2_AUTH_CERTS_DIR}${BENTOV2_AUTH_FULLCHAIN_RELATIVE_PATH}:/run/secrets/keycloak-cert-file:ro
       - ${BENTOV2_AUTH_CERTS_DIR}${BENTOV2_AUTH_PRIVKEY_RELATIVE_PATH}:/run/secrets/keycloak-cert-key-file:ro
+      - ${PWD}/lib/auth/bento-theme:/opt/keycloak/themes/bento-theme:ro
     environment:
       - BENTO_UID
       - KEYCLOAK_ADMIN=${BENTOV2_AUTH_ADMIN_USER}
@@ -29,6 +30,9 @@ services:
       - KC_HTTPS_CERTIFICATE_FILE
       - KC_HTTPS_CERTIFICATE_KEY_FILE
       - KC_PROXY_HEADERS
+      - KC_SPI_THEME_STATIC_MAX_AGE=-1
+      - KC_SPI_THEME_CACHE_THEMES=false
+      - KC_SPI_THEME_CACHE_TEMPLATES=false
     mem_limit: ${BENTOV2_AUTH_MEM_LIM} # for mem_limit to work, make sure docker-compose is v2.4
     cpus: ${BENTOV2_AUTH_CPUS}
     cpu_shares: 512

@@ -346,7 +346,7 @@ def init_auth(docker_client: docker.DockerClient):
 
         return res.json()
 
-    def create_realm_if_needed(token: str) -> None:
+    def create_realm_if_needed(token: str, login_theme: str = "keycloak") -> None:
         existing_realms_res = keycloak_req("admin/realms", bearer_token=token)
         existing_realms = existing_realms_res.json()
 
@@ -356,7 +356,36 @@ def init_auth(docker_client: docker.DockerClient):
 
         for realm in existing_realms:
             if realm["realm"] == AUTH_REALM:
-                warn(f"    Found existing realm: {AUTH_REALM}; using that.")
+                warn(f"    Found existing realm: {AUTH_REALM}; verifying theme and internationalization...")
+                updated_realm = False
+
+                if realm.get("loginTheme") != login_theme:
+                    realm["loginTheme"] = login_theme
+                    updated_realm = True
+
+                if realm.get("internationalizationEnabled") is not True or set(realm.get("supportedLocales", [])) != {
+                  "en", "fr"}:
+                    realm["internationalizationEnabled"] = True
+                    realm["supportedLocales"] = ["en", "fr"]
+                    updated_realm = True
+
+                if updated_realm:
+                    update_realm_res = keycloak_req(
+                        f"admin/realms/{AUTH_REALM}",
+                        method="put",
+                        bearer_token=token,
+                        json=realm,
+                    )
+                    if update_realm_res.ok:
+                        cprint(
+                            f"    Updated realm {AUTH_REALM} with theme '{login_theme}' and internationalization"
+                            f" settings.",
+                            "green")
+                    else:
+                        err(f"    Failed to update realm: {update_realm_res.status_code} {update_realm_res.json()}")
+                        exit(1)
+                else:
+                    warn(f"    Realm {AUTH_REALM} already has the correct theme and internationalization settings.")
                 return
 
         create_realm_res = keycloak_req(
@@ -368,11 +397,17 @@ def init_auth(docker_client: docker.DockerClient):
                 "enabled": True,
                 "editUsernameAllowed": False,
                 "resetPasswordAllowed": False,
+                "loginTheme": login_theme,
+                "internationalizationEnabled": True,
+                "supportedLocales": ["en", "fr"],
             })
 
         if not create_realm_res.ok:
             err(f"    Failed to create realm: {AUTH_REALM}; {create_realm_res.status_code} {create_realm_res.json()}")
             exit(1)
+
+        cprint(f"    Created realm {AUTH_REALM} with login theme '{login_theme}' and internationalization settings.",
+               "green")
 
     def create_web_client_if_needed(token: str) -> None:
         web_client_kc_id: Optional[str] = fetch_existing_client_id(token, AUTH_CLIENT_ID)
@@ -555,7 +590,7 @@ def init_auth(docker_client: docker.DockerClient):
     success()
 
     info(f"  Creating realm: {AUTH_REALM}")
-    create_realm_if_needed(access_token)
+    create_realm_if_needed(access_token, login_theme="bento-theme")
     success()
 
     info(f"  Creating web client: {AUTH_CLIENT_ID}")
