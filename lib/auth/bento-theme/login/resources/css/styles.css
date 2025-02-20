@@ -1,0 +1,133 @@
+.pf-v5-c-login__container {
+  grid-template-areas: "main";
+  grid-template-columns: 34rem;
+  margin-top: -175px;
+}
+
+#kc-header-wrapper {
+  padding: 62px 10px 20px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.login-pf body {
+  background: linear-gradient(to bottom, #ffffff, #e9ecef);
+  height: 100%;
+}
+
+div.kc-logo-text {
+  height: 63px;
+  width: 300px;
+  margin: 100px auto 0;
+}
+
+div.kc-logo-text img {
+  max-width: 100%;
+  height: auto;
+}
+
+
+.bento-logo {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  opacity: 0.2;
+  z-index: 1;
+  width: 250px;
+  height: auto;
+}
+
+input[type="text"],
+input[type="password"],
+textarea.pf-c-form-control {
+  border-radius: 20px;
+  border: 1px solid #999;
+  padding: 8px 12px;
+  box-shadow: inset 0 1px 3px #ddd;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+textarea.pf-c-form-control:focus {
+  border-color: #66afe9;
+  outline: 0;
+  box-shadow: inset 0 1px 3px #ddd, 0 0 5px rgba(102, 175, 233, 0.5);
+}
+
+button,
+input[type="submit"] {
+  border-radius: 24px;
+}
+
+.pf-v5-c-login__main {
+  border-radius: 12px;
+}
+
+.pf-v5-c-form-control {
+  border: none;
+  box-shadow: none;
+  --pf-v5-c-form-control--before--BorderTopWidth: 0;
+  --pf-v5-c-form-control--before--BorderRightWidth: 0;
+  --pf-v5-c-form-control--before--BorderBottomWidth: 0;
+  --pf-v5-c-form-control--before--BorderLeftWidth: 0;
+  --pf-v5-c-form-control--before--BorderTopColor: transparent;
+  --pf-v5-c-form-control--before--BorderRightColor: transparent;
+  --pf-v5-c-form-control--before--BorderBottomColor: transparent;
+  --pf-v5-c-form-control--before--BorderLeftColor: transparent;
+  --pf-v5-c-form-control--after--BorderBottomWidth: 0;
+  --pf-v5-c-form-control--after--BorderBottomColor: transparent;
+  --pf-v5-c-form-control--focus--after--BorderBottomWidth: 0;
+  --pf-v5-c-form-control--m-disabled--after--BorderColor: transparent;
+  --pf-v5-c-form-control--m-readonly--hover--after--BorderBottomColor: transparent;
+  --pf-v5-c-form-control--m-readonly--focus--after--BorderBottomWidth: 0;
+  --pf-v5-c-form-control--m-readonly--focus--after--BorderBottomColor: transparent;
+}
+
+.pf-v5-c-form-control::after {
+  border-bottom-width: 0;
+}
+
+.kc-input-with-button input {
+  width: 100%;
+  padding-right: 2.5rem; /* room for the eye button */
+}
+
+.kc-input-with-button button {
+  position: absolute;
+  right: 0.6rem !important; /* further left */
+  top: 50%;
+  transform: translateY(-50%);
+  border: none !important;
+  background: transparent !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  box-shadow: none !important;
+  outline: none !important;
+  --pf-v5-c-button--after--BorderColor: transparent !important;
+}
+
+#login-select-toggle {
+  border: 1px solid #999;
+  border-radius: 20px;
+  padding: 8px 12px;
+  background: #fff;
+  color: #333;
+}
+
+.pf-v5-c-login__main-header-utilities select {
+  border: 1px solid #999;
+  border-radius: 20px;
+  padding: 8px 12px;
+  background: #fff;
+  color: #333;
+  font-size: 0.875rem;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.pf-v5-c-login__main-header-utilities select option {
+  padding: 8px 12px;
+}
